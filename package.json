@@ -1,0 +1,23 @@
+{
+  "name": "node-red-contrib-harperdb",
+  "version": "0.0.1",
+  "description": "A HarperDB node for Node-RED",
+  "dependencies": {
+    "mongodb": "^2.2.34"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "node-red",
+    "harperdb"
+  ],
+  "node-red": {
+    "nodes": {
+      "harperdb": "harperdb.js"
+    }
+  },
+  "author": {
+    "name": "Stephen Goldberg",
+    "email": "stephen@harperdb.io",
+    "url": "http://nodered.org"
+  }
+}
