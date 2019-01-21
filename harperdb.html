@@ -1,4 +1,4 @@
-<script type="text/x-red" data-template-name="harperdb">
+<script type="text/x-red" data-template-name="harperdb setup">
     <div class="form-row">
         <label for="node-config-input-hostname"><i class="fa fa-bookmark"></i>   host</label>
         <input class="input-append-left" type="text" id="node-config-input-hostname" placeholder="localhost" style="width: 40%;" >
@@ -22,7 +22,7 @@
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('harperdb', {
+    RED.nodes.registerType('harperdb setup', {
         category: 'config',
         color: "#D8BFD8",
         defaults: {
@@ -41,10 +41,22 @@
 </script>
 
 
-<script type="text/x-red" data-template-name="harperdb out">
+<script type="text/x-red" data-template-name="harperdb">
       <div class="form-row">
         <label for="node-input-harperdb"><i class="fa fa-server"></i>  server</span></label>
         <input type="text" id="node-input-harperdb">
+    </div>
+        <div class="form-row">
+        <label for="node-input-operation"><i class="fa fa-wrench"></i>  operation</span></label>
+        <select type="text" id="node-input-operation" style="display: inline-block; vertical-align: top;">
+            <option value="insert">insert</option>
+            <option value="update" >update</option>
+            <option value="delete" >delete</option>
+            <option value="search_by_hash" >search_by_hash</option>
+            <option value="search_by_value" >search_by_value</option>
+              <option value="search_by_value" >sql</option>
+
+        </select>
     </div>
      <div class="form-row">
         <label for="node-input-schema"><i class="fa fa-database"></i>  schema</span></label>
@@ -59,110 +71,8 @@
         <input type="text" id="node-input-hash_attribute">
     </div>
 
-    <div class="form-row">
-        <label for="node-input-operation"><i class="fa fa-wrench"></i>  operation</span></label>
-        <select type="text" id="node-input-operation" style="display: inline-block; vertical-align: top;">
-            <option value="insert">Insert</option>
-            <option value="update" >Update</option>
-            <option value="delete" >Delete</option>
 
-        </select>
-    </div>
-
-    <div class="form-tips" id="node-warning" style="display: none"><span data-i18n="[html]harperdb.tip"></span></div>
-
-</script>
-
-<script type="text/x-red" data-help-name="harperdb out">
-    <p>Insert, Update, or Delete from HarperDB</p>
-   <h3>Inputs</h3>
-    <p>
-     <code>schema</code> HarperDB schema where you want to insert,update, or delete. </br>
-     <code>table</code> HarperDB table where you want to insert,update, or delete.. </br>
-     <code>hash_attribute</code> The hash_attribute as defined in <code>msg.payload</code></br>
-    
-    </p>
-
-</script>
-<script type="text/javascript">
-    function oneditprepare() {
-        $("#node-input-operation").change(function () {
-            var id = $("#node-input-operation option:selected").val();
-            if (id === "delete") {
-                $(".node-input-hash_attribute").show();
-            } else if (id === "search_by_hash") {
-
-                $(".node-input-hash_attribute, .node-input-hash_values, .node-input-get_attributes").show();
-                $(".node-input-search_value, .node-input-search_attribute").hide();
-
-            } else if (id === "search_by_value") {
-
-                $(".node-input-hash_attribute, .node-input-search_value, .node-input-search_attribute, .node-input-get_attributes").show();
-                $(".node-input-hash_values").hide();
-
-            }
-
-            else {
-                $(".node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes").hide();
-            }
-        });
-
-    }
-
-    RED.nodes.registerType('harperdb out', {
-        category: 'storage-output',
-        color: "#D8BFD8",
-        defaults: {
-            harperdb: {type: "harperdb", required: true},
-            name: {value: "", required: true},
-            schema: {value: "", required: true},
-            table: {value: "", required: true},
-            hash_attribute: {value: ""},
-
-            operation: {value: "insert"}
-        },
-        inputs: 1,
-        outputs: 1,
-        icon: "db.png",
-        align: "right",
-        label: function () {
-            var harperdbNode = RED.nodes.node(this.harperdb);
-            return this.name || "harperdb"
-        },
-        labelStyle: function () {
-            return this.name ? "node_label_italic" : "";
-        },
-        oneditprepare: oneditprepare
-    });
-</script>
-
-
-<script type="text/x-red" data-template-name="harperdb in">
-        <div class="form-row">
-        <label for="node-input-harperdb"><i class="fa fa-server"></i> server</span></label>
-        <input type="text" id="node-input-harperdb">
-    </div>
-    <div class="form-row">
-        <label for="node-input-operation"><i class="fa fa-wrench"></i> <span data-i18n="harperdb.label.operation"></span></label>
-        <select type="text" id="node-input-operation" style="display: inline-block; vertical-align: top;">
-            <option value="search_by_hash" >search_by_hash</option>
-            <option value="search_by_value" >search_by_value</option>
-              <option value="sql" >sql</option>
-        </select>
-    </div>
-     <div class="form-row">
-        <label for="node-input-schema"><i class="fa fa-database"></i>  schema</span></label>
-        <input type="text" id="node-input-schema">
-    </div>
-    <div class="form-row">
-        <label for="node-input-table"><i class="fa fa-table"></i>  table</span></label>
-        <input type="text" id="node-input-table">
-    </div>
-   <div class="form-row node-input-hash_attribute">
-        <label for="node-input-hash_attribute"><i class="fa fa-key"></i>  hash_attribute</span></label>
-        <input type="text" id="node-input-hash_attribute">
-    </div>
-    <div class="form-row node-input-hash_values">
+        <div class="form-row node-input-hash_values">
         <label for="node-input-hash_values"><i class="fa fa-search"></i>  hash_values  </span></label>
         <input type="text" id="node-input-hash_values">
     </div>
@@ -182,11 +92,38 @@
         <input type="text" id="node-input-get_attributes">
     </div>
     <div class="form-tips" id="node-warning" style="display: none"><span data-i18n="[html]harperdb.tip"></span></div>
+    <div class="form-tips" id="node-warning" style="display: none"><span data-i18n="[html]harperdb.tip"></span></div>
 
 </script>
 
-<script type="text/x-red" data-help-name="harperdb in">
-    Execute a filter search or SQL query against HarperDB and retrive the results.
+<script type="text/x-red" data-help-name="harperdb">
+   <p>Execute Operations against HarperDB see docs.harperdb.io for more info. </p>
+   <h3>Inputs</h3>
+
+    <h3>insert</h3>
+    <p>
+     <code>schema</code> HarperDB schema where you want to insert. </br>
+     <code>table</code> HarperDB table where you want to insert. </br>
+
+
+    </p>
+
+    <h3>update</h3>
+    <p>
+     <code>schema</code> HarperDB schema where you want to update. </br>
+     <code>table</code> HarperDB table where you want to  update. </br>
+    </p>
+
+
+    <h3>delete</h3>
+    <p>
+     <code>schema</code> HarperDB schema where you want to delete. </br>
+     <code>table</code> HarperDB table where you want to delete. </br>
+     <code>hash_attribute</code> The hash_attribute as defined in <code>msg.payload</code> from which you wish to delete in HarperDB</br>
+
+    </p>
+
+
 
 
     <h3>search_by_value</h3>
@@ -215,11 +152,36 @@
 
 </script>
 <script type="text/javascript">
-    RED.nodes.registerType('harperdb in', {
-        category: 'storage-input',
-        color: "#D8BFD8",
+    function oneditprepare() {
+        $("#node-input-operation").change(function () {
+            var id = $("#node-input-operation option:selected").val();
+            if (id === "delete") {
+                $(".node-input-hash_attribute").show();
+                $(" .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes").hide();
+            } else if (id === "search_by_hash") {
+
+                $(".node-input-hash_attribute, .node-input-hash_values, .node-input-get_attributes").show();
+                $(".node-input-search_value, .node-input-search_attribute").hide();
+
+            } else if (id === "search_by_value") {
+
+                $(".node-input-hash_attribute, .node-input-search_value, .node-input-search_attribute, .node-input-get_attributes").show();
+                $(".node-input-hash_values").hide();
+
+            }
+
+            else {
+                $(".node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes").hide();
+            }
+        });
+
+    }
+
+    RED.nodes.registerType('harperdb', {
+        category: 'storage',
+        color: "",
         defaults: {
-            harperdb: {type: "harperdb", required: true},
+            harperdb: {type: "harperdb setup", required: true},
             name: {value: ""},
             schema: {value: "", required: true},
             table: {value: "", required: true},
@@ -228,11 +190,12 @@
             search_attribute: {value: ""},
             search_value: {value: ""},
             get_attributes: {value: "*"},
-            operation: {value: "search_by_hash"}
+            operation: {value: "insert"}
         },
         inputs: 1,
         outputs: 1,
         icon: "db.png",
+        align: "right",
         label: function () {
             var harperdbNode = RED.nodes.node(this.harperdb);
             return this.name || "harperdb"
@@ -243,3 +206,4 @@
         oneditprepare: oneditprepare
     });
 </script>
+
