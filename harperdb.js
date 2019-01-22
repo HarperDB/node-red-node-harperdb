@@ -71,7 +71,7 @@ module.exports = function (RED) {
                         if (body.error) {
                             node.error(body.error, msg);
                         } else {
-                            msg.payload = body;
+                            msg.payload = JSON.parse(body.toString());
                             node.send(msg);
                         }
                     });
