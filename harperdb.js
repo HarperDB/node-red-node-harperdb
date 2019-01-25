@@ -1,6 +1,6 @@
 module.exports = function (RED) {
     "use strict";
-    const http = require("http");
+    const request = require("request");
 
 
     function HarperDBSetupNode(n) {
@@ -11,22 +11,27 @@ module.exports = function (RED) {
         var node = this;
 
         function getOptions() {
+            if(node.hostname.indexOf('http') < 0){
+                node.hostname = 'http://' + node.hostname;
+            }
 
-            var options = {
-                "method": "POST",
-                "hostname": node.hostname,
-                "port": node.port,
-                "path": "/",
-                "headers": {
-                    "content-type": "application/json",
-                    "authorization":
-                    "Basic " +
-                    new Buffer(node.credentials.user + ":" + node.credentials.password).toString(
-                        "base64"
-                    )
 
-                }
-            };
+
+
+
+            var options = { method: 'POST',
+                url:  node.hostname + ":" +node.port ,
+                headers:
+                    {
+                        'cache-control': 'no-cache',
+                        authorization:   "Basic " +
+                        new Buffer(node.credentials.user + ":" + node.credentials.password).toString(
+                            "base64"
+                        ),
+                        'content-type': 'application/json' },
+                body:
+                    { },
+                json: true };
 
 
             return options;
@@ -57,36 +62,7 @@ module.exports = function (RED) {
 
         node.on("input", function (msg) {
 
-
-            var req = http.request(this.HarperDBConfig.options, function (res) {
-
-                    var chunks = [];
-
-                    res.on("data", function (chunk) {
-                        chunks.push(chunk);
-                    });
-
-                    res.on("end", function () {
-                        var body = Buffer.concat(chunks);
-                        if (body.error) {
-                            node.error(body.error, msg);
-                        } else {
-                            msg.payload = JSON.parse(body.toString());
-                            node.send(msg);
-                        }
-                    });
-
-
-            });
-
-
-            req.on('error', function (error) {
-                console.log(error);
-                node.error(error,msg);
-                node.status({fill:"red",shape:"ring",text:"Error"});
-
-            });
-
+           let options =  this.HarperDBConfig.options;
 
             let hdb_payload = {
                 operation: n.operation
@@ -147,12 +123,28 @@ module.exports = function (RED) {
 
             }
 
+            options.body = hdb_payload;
+
+            console.log('options' + JSON.stringify(options));
+
+            request(options, function (error, response, body) {
+                if(error){
+                    node.error(error,msg);
+                    node.status({fill:"red",shape:"ring",text:"Error"});
+
+                }
 
 
-            req.write(JSON.stringify(hdb_payload));
+                msg.payload = body
+                node.send(msg);
+                node.status({fill:"green",shape:"dot",text:"success"});
 
 
-            req.end();
+
+                });
+
+
+
 
 
         });
