@@ -68,7 +68,7 @@ Execute Operations against HarperDB see <a href="http://docs.harperdb.io"> http:
 
 ***hash_attribute*** The hash_attribute as defined in HarperDB for your schema.table.
 
-***hash_values*** Where the values you wish to search/filter the hash_attribute on live in your `msg.payload`  so for example if your hash_values are in `msg.payload.hash_values `` then you want to put `hash_values`
+***hash_values*** Where the values you wish to search/filter the hash_attribute on live in your `msg.payload`  so for example if your hash_values are in `msg.payload.hash_values `  then you want to put `hash_values`
 
 ***get_attributes*** The attributes you want returned in your response.  If using multiple values seperate with a comma For example ` id, breed, age `.
 
