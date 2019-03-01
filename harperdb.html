@@ -58,11 +58,11 @@
 
         </select>
     </div>
-     <div class="form-row">
+     <div class="form-row node-input-schema">
         <label for="node-input-schema"><i class="fa fa-database"></i>  schema</span></label>
         <input type="text" id="node-input-schema">
     </div>
-    <div class="form-row">
+    <div class="form-row node-input-table">
         <label for="node-input-table"><i class="fa fa-table"></i>  table</span></label>
         <input type="text" id="node-input-table">
     </div>
@@ -88,7 +88,7 @@
     <div class="form-row node-input-sql">
         <label for="node-input-sql"><i class="fa fa-search"></i>  SQL Query</span></label>
         <select type="text" id="node-input-sql" style="display: inline-block; vertical-align: top;">
-            <option value="msg.payload.sql">msg.payload.sql</option>
+            <option value="msg.payload.sql" selected>msg.payload.sql</option>
             <option value="msg.topic" >msg.topic</option>
             <option value="fixed_statement" >fixed statement</option>
         </select>
@@ -98,7 +98,7 @@
      <label for="node-input-fixed_statement"><i class="fa fa-search"> SQL Statement</i></span></label>
     </div>
      <div>
-        <input type="" id="node-input-fixed_statement" autofocus="autofocus">
+        <input type="" id="node-input-fixed_statement" autofocus="autofocus" style="display:none;">
     </div>
 
     <div class="form-row node-input-fixed_statement ">
@@ -158,7 +158,7 @@
      <code>schema</code> HarperDB schema where you want to search. </br>
      <code>table</code> HarperDB table where you want to search. </br>
      <code>hash_attribute</code> The hash_attribute as defined in HarperDB for your schema.table. </br>
-     <code>hash_values</code> Where the values you wish to search/filter the hash_attribute on live in your <code>msg.payload</code>  so for example <code>msg.payload.hash_values </code>
+     <code>hash_values</code> Where the values you wish to search/filter the hash_attribute on live in your <code>msg.payload</code>  so for example if your hash_values are in <code>msg.payload.hash_values </code> then you want to put <code>hash_values</code>
      <code>get_attributes</code> The attributes you want returned in your response.  If using multiple values seperate with a comma For example <code> id, breed, age </code>.  </br>
 
     </p>
@@ -176,14 +176,15 @@
         defaults: {
             harperdb: {type: "harperdb setup", required: true},
             name: {value: ""},
-            schema: {value: "", required: true},
-            table: {value: "", required: true},
+            schema: {value: ""},
+            table: {value: ""},
             hash_attribute: {value: ""},
             hash_values: {value: ""},
             search_attribute: {value: ""},
             search_value: {value: ""},
             get_attributes: {value: "*"},
             operation: {value: "insert"},
+            sql: {value :""},
             fixed_statement:{value:""},
             sql:{value:""}
 
@@ -256,7 +257,7 @@
 
                 }else if(id ==='sql'){
                     $(".node-input-sql").show();
-                    $(".node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes,.node-input-schema,.node-input-get_table, .node-input-fixed_statement").hide();
+                    $(".node-input-table,.node-input-schema,.node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes,.node-input-schema,.node-input-get_table, .node-input-fixed_statement").hide();
                 }
                 else {
                     $(".node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes, .node-input-sql, .node-input-fixed_statement").hide();

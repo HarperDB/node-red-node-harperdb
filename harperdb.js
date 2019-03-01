@@ -97,7 +97,20 @@ module.exports = function (RED) {
                 hdb_payload.search_attribute = n.search_attribute;
                 hdb_payload.search_value = msg.payload[n.search_value];
             } else if (n.operation === 'sql') {
-                hdb_payload.sql = msg.payload.sql;
+                console.log('n.input_sql  : ' +n.sql);
+                console.log('msg.payload.topic  : ' + msg.payload.topic);
+                console.log(' msg.payload.topic  : ' + msg.payload.topic);
+                console.log('n.fixed_statement  : ' + n.fixed_statement);
+                if(n.sql === 'msg.payload.sql'){
+                    hdb_payload.sql = msg.payload.sql;
+                }else if(n.sql === 'msg.topic'){
+                    hdb_payload.sql = msg.payload.topic;
+                }else if(n.sql === 'fixed_statement'){
+                    hdb_payload.sql = n.fixed_statement;
+
+                }
+
+
 
             } else if (n.operation === 'update' || n.operation === 'insert') {
                 let records = [];
