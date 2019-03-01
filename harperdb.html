@@ -168,9 +168,19 @@
 
     </p>
     <h3>SQL</h3>
+    <h4>msg.payload.sql</h4>
     <p>
     Make sure your <code>msg.payload</code> has a parameter on it called sql.  For example <code>{msg.payload.sql = "select * from dog" }</code>
     </p>
+    <h4>msg.topic</h4>
+    <p>
+    Make sure your <code>msg.topic</code> contains your sql statement.  For example <code>{msg.topic = "select * from dog" }</code>
+    </p>
+    <h4>fixed_statement</h4>
+    <p>
+    Type in whatever SQL you want in the input box.  It will override anything else sent to HarperDB for example <code> "select * from dog" </code>
+    </p>
+
 
 </script>
 <script type="text/javascript">

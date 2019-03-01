@@ -6,9 +6,9 @@ Install
 -------
 
 Run the following command in your Node-RED user directory - typically `~/.node-red`
-
+```
  npm install node-red-contrib-harperdb
-
+```
 
 Usage
 -----
@@ -62,6 +62,17 @@ Execute Operations against HarperDB see <a href="http://docs.harperdb.io">docs.h
 
  
  **SQL**
- 
- Make sure your *msg.payload* has a parameter on it called sql.  For example *{msg.payload.sql = "select * from dog" }*
- 
+
+       ***msg.payload.sql***
+
+       Make sure your ```msg.payload``` has a parameter on it called sql.  For example ```{msg.payload.sql = "select * from dog" }```
+
+     ***msg.topic***
+
+     Make sure your ```msg.topic``` contains your sql statement.  For example ```msg.topic = "select * from dog" }```
+
+     ***fixed_statement***
+
+     Type in whatever SQL you want in the input box.  It will override anything else sent to HarperDB for example ```  "select * from dog" ```
+
+
