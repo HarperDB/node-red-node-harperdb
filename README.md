@@ -13,66 +13,64 @@ Run the following command in your Node-RED user directory - typically `~/.node-r
 Usage
 -----
 
-Execute Operations against HarperDB see <a href="http://docs.harperdb.io">docs.harperdb.io for more info.  </a>
-**Inputs**
 
- **insert**
- 
-  **schema** HarperDB schema where you want to insert. 
-  **table** HarperDB table where you want to insert. 
+ Execute Operations against HarperDB see docs.harperdb.io for more info. 
+   ### Inputs
 
-
- 
-
- **update**
- 
-  **schema** HarperDB schema where you want to update. 
-  **table** HarperDB table where you want to  update. 
- 
+    ### insert
+    
+     ***schema*** HarperDB schema where you want to insert. 
+     ***table*** HarperDB table where you want to insert. 
 
 
- **delete**
- 
-  **schema** HarperDB schema where you want to delete. 
-  **table** HarperDB table where you want to delete. 
-  **hash_attribute** The hash_attribute as defined in **msg.payload** from which you wish to delete in HarperDB
+    
 
- 
-
-
+    ### update
+    
+     ***schema*** HarperDB schema where you want to update. 
+     ***table*** HarperDB table where you want to  update. 
+    
 
 
- **search_by_value**
- 
-  **schema** HarperDB schema where you want to search. 
-  **table** HarperDB table where you want to search. 
-  **hash_attribute** The hash_attribute as defined in HarperDB for your schema.table. 
-  **search_attribute** The attribute in HarperDB that you wish to search/filter. 
-  **search_value** The attribute in your **msg.payload** that you wish use to search/filter the search_attribute For example **msg.payload.search_value** 
-  **get_attributes** The attributes you want returned in your response.  If using multiple values seperate with a comma For example ** id, breed, age **.  
+    ### delete
+    
+     ***schema*** HarperDB schema where you want to delete. 
+     ***table*** HarperDB table where you want to delete. 
+     ***hash_attribute*** The hash_attribute as defined in `msg.payload` from which you wish to delete in HarperDB
 
- 
-**search_by_hash**
- 
-  **schema** HarperDB schema where you want to search. 
-  **table** HarperDB table where you want to search. 
-  **hash_attribute** The hash_attribute as defined in HarperDB for your schema.table. 
-  **hash_values** Where the values you wish to search/filter the hash_attribute on live in your **msg.payload**  so for example **msg.payload.hash_values **
-  **get_attributes** The attributes you want returned in your response.  If using multiple values seperate with a comma For example ** id, breed, age **.  
-
- 
- **SQL**
-
-       ***msg.payload.sql***
-
-       Make sure your ```msg.payload``` has a parameter on it called sql.  For example ```{msg.payload.sql = "select * from dog" }```
-
-     ***msg.topic***
-
-     Make sure your ```msg.topic``` contains your sql statement.  For example ```msg.topic = "select * from dog" }```
-
-     ***fixed_statement***
-
-     Type in whatever SQL you want in the input box.  It will override anything else sent to HarperDB for example ```  "select * from dog" ```
+    
 
 
+
+
+    ### search_by_value
+    
+     ***schema*** HarperDB schema where you want to search. 
+     ***table*** HarperDB table where you want to search. 
+     ***hash_attribute*** The hash_attribute as defined in HarperDB for your schema.table. 
+     ***search_attribute*** The attribute in HarperDB that you wish to search/filter. 
+     ***search_value*** The attribute in your `msg.payload` that you wish use to search/filter the search_attribute For example `msg.payload.search_value`
+     ***get_attributes*** The attributes you want returned in your response.  If using multiple values seperate with a comma For example ` id, breed, age `
+
+    
+      ### search_by_hash
+    
+     ***schema*** HarperDB schema where you want to search. 
+     ***table*** HarperDB table where you want to search. 
+     ***hash_attribute*** The hash_attribute as defined in HarperDB for your schema.table. 
+     ***hash_values*** Where the values you wish to search/filter the hash_attribute on live in your `msg.payload`  so for example if your hash_values are in `msg.payload.hash_values `` then you want to put `hash_values`
+     ***get_attributes*** The attributes you want returned in your response.  If using multiple values seperate with a comma For example ` id, breed, age `.
+
+    
+    ### SQL
+    ####msg.payload.sql
+    
+    Make sure your ***msg.payload*** has a parameter on it called sql.  For example`{msg.payload.sql = "select * from dog" }`
+    
+    ####msg.topic
+    
+    Make sure your ***msg.topic*** contains your sql statement.  For example`{msg.topic = "select * from dog" }`
+    
+    ####fixed_statement
+    
+    Type in whatever SQL you want in the input box.  It will override anything else sent to HarperDB for example ` "select * from dog" `
