@@ -7,6 +7,10 @@
     "node-red",
     "harperdb"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HarperDB/node-red-node-harperdb"
+  },
   "node-red": {
     "nodes": {
       "harperdb": "harperdb.js"
@@ -14,8 +18,7 @@
   },
   "author": {
     "name": "Stephen Goldberg",
-    "email": "stephen@harperdb.io",
-    "url": "http://nodered.org"
+    "email": "stephen@harperdb.io"
   },
   "dependencies": {
     "request": "^2.88.0"
