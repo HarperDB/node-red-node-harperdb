@@ -139,18 +139,25 @@ module.exports = function (RED) {
             options.body = hdb_payload;
 
             console.log('options' + JSON.stringify(options));
-
+            node.status({fill:'blue',shape:'dot',text:'requesting'});
             request(options, function (error, response, body) {
-                if(error){
-                    node.error(error,msg);
+                if(error || body.error){
+                    if(error){
+                        node.error(error,msg);
+                    }else{
+                        node.error(body.error);
+                    }
+
                     node.status({fill:"red",shape:"ring",text:"Error"});
 
+                }else{
+                    msg.payload = body
+                    node.send(msg);
+                    node.status({});
                 }
 
 
-                msg.payload = body
-                node.send(msg);
-                node.status({fill:"green",shape:"dot",text:"success"});
+
 
 
 
