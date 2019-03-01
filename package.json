@@ -16,5 +16,8 @@
     "name": "Stephen Goldberg",
     "email": "stephen@harperdb.io",
     "url": "http://nodered.org"
+  },
+  "dependencies": {
+    "request": "^2.88.0"
   }
 }
