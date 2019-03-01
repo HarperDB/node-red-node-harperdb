@@ -13,7 +13,7 @@ Run the following command in your Node-RED user directory - typically `~/.node-r
 Usage
 -----
 
-Execute Operations against HarperDB see <a href="http://docs.harperdb.io">docs.harperdb.io for more info. 
+Execute Operations against HarperDB see <a href="http://docs.harperdb.io">docs.harperdb.io for more info.  </a>
 **Inputs**
 
  **insert**
