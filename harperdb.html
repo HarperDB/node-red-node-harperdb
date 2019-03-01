@@ -54,7 +54,7 @@
             <option value="delete" >delete</option>
             <option value="search_by_hash" >search_by_hash</option>
             <option value="search_by_value" >search_by_value</option>
-              <option value="sql" >sql</option>
+              <option value="sql">sql</option>
 
         </select>
     </div>
@@ -84,14 +84,31 @@
     <div class="form-row node-input-search_value">
         <label for="node-input-search_value"><i class="fa fa-search"></i>  search_value</span></label>
         <input type="text" id="node-input-search_value">
+    </div   >
+    <div class="form-row node-input-sql">
+        <label for="node-input-sql"><i class="fa fa-search"></i>  SQL Query</span></label>
+        <select type="text" id="node-input-sql" style="display: inline-block; vertical-align: top;">
+            <option value="msg.payload.sql">msg.payload.sql</option>
+            <option value="msg.topic" >msg.topic</option>
+            <option value="fixed_statement" >fixed statement</option>
+        </select>
     </div>
 
+    <div class="form-row node-input-fixed_statement">
+     <label for="node-input-fixed_statement"><i class="fa fa-search"> SQL Statement</i></span></label>
+    </div>
+     <div>
+        <input type="" id="node-input-fixed_statement" autofocus="autofocus">
+    </div>
+
+    <div class="form-row node-input-fixed_statement ">
+        <div style="height: 250px; min-height:150px;" class="node-text-editor" id="node-input-fixed_statement_editor" ></div>
+    </div>
 
      <div class="form-row node-input-get_attributes">
         <label for="node-input-get_attributes"><i class="fa fa-columns"></i>  get_attributes </span></label>
         <input type="text" id="node-input-get_attributes">
     </div>
-    <div class="form-tips" id="node-warning" style="display: none"><span data-i18n="[html]harperdb.tip"></span></div>
     <div class="form-tips" id="node-warning" style="display: none"><span data-i18n="[html]harperdb.tip"></span></div>
 
 </script>
@@ -152,29 +169,6 @@
 
 </script>
 <script type="text/javascript">
-    function oneditprepare() {
-        $("#node-input-operation").change(function () {
-            var id = $("#node-input-operation option:selected").val();
-            if (id === "delete") {
-                $(".node-input-hash_attribute").show();
-                $(" .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes").hide();
-            } else if (id === "search_by_hash") {
-
-                $(".node-input-hash_attribute, .node-input-hash_values, .node-input-get_attributes").show();
-                $(".node-input-search_value, .node-input-search_attribute").hide();
-
-            } else if (id === "search_by_value") {
-
-                $(".node-input-hash_attribute, .node-input-search_value, .node-input-search_attribute, .node-input-get_attributes").show();
-                $(".node-input-hash_values").hide();
-
-            }
-            else {
-                $(".node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes").hide();
-            }
-        });
-
-    }
 
     RED.nodes.registerType('harperdb', {
         category: 'storage',
@@ -189,7 +183,10 @@
             search_attribute: {value: ""},
             search_value: {value: ""},
             get_attributes: {value: "*"},
-            operation: {value: "insert"}
+            operation: {value: "insert"},
+            fixed_statement:{value:""},
+            sql:{value:""}
+
         },
         inputs: 1,
         outputs: 1,
@@ -202,7 +199,79 @@
         labelStyle: function () {
             return this.name ? "node_label_italic" : "";
         },
-        oneditprepare: oneditprepare
+        oneditprepare: function(){
+            var ace = this;
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-fixed_statement_editor',
+                mode: 'ace/mode/sql',
+                value: $("#node-input-fixed_statement").val(),
+                globals: {
+                    msg:true,
+                    context:true,
+                    RED: true,
+                    util: true,
+                    flow: true,
+                    global: true,
+                    console: true,
+                    Buffer: true,
+                    setTimeout: true,
+                    clearTimeout: true,
+                    setInterval: true,
+                    clearInterval: true
+                }
+            });
+
+
+            $("#node-input-sql").change(function () {
+                var id = $("#node-input-sql option:selected").val();
+
+                if(id === 'fixed_statement'){
+                    $(".node-input-fixed_statement").show();
+
+
+                    ace.editor.renderer.updateFull();
+                }else{
+                    $(".node-input-fixed_statement").hide();
+                }
+
+
+            });
+
+            $("#node-input-operation").change(function () {
+
+                var id = $("#node-input-operation option:selected").val();
+
+                if (id === "delete") {
+                    $(".node-input-hash_attribute,.node-input-schema,.node-input-table").show();
+                    $(" .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes, .node-input-sql, .node-input-fixed_statement").hide();
+                } else if (id === "search_by_hash") {
+
+                    $(".node-input-hash_attribute, .node-input-hash_values, .node-input-get_attributes,.node-input-schema,.node-input-table").show();
+                    $(".node-input-search_value, .node-input-search_attribute, .node-input-sql, .node-input-fixed_statement").hide();
+
+                } else if (id === "search_by_value") {
+
+                    $(".node-input-hash_attribute, .node-input-search_value, .node-input-search_attribute, .node-input-get_attributes,.node-input-schema,.node-input-table").show();
+                    $(".node-input-hash_values, .node-input-sql, .node-input-fixed_statement").hide();
+
+                }else if(id ==='sql'){
+                    $(".node-input-sql").show();
+                    $(".node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes,.node-input-schema,.node-input-get_table, .node-input-fixed_statement").hide();
+                }
+                else {
+                    $(".node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes, .node-input-sql, .node-input-fixed_statement").hide();
+                }
+            });
+
+
+
+
+        },
+        oneditsave: function() {
+            $("#node-input-fixed_statement").val(this.editor.getValue());
+            this.editor.destroy();
+            delete this.editor;
+        },
     });
 </script>
 
