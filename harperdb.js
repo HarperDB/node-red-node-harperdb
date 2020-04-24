@@ -14,8 +14,12 @@ module.exports = function(RED) {
         node.hostname = 'http://' + node.hostname;
       }
 
+      let url = node.hostname;
+      if(node.port)
+        url = url + ':' + node.port;
+
       var options = {
-        method: 'POST', url: node.hostname + ':' + node.port, headers: {
+        method: 'POST', url: url, headers: {
           'cache-control': 'no-cache',
           authorization: 'Basic ' + new Buffer(node.credentials.user + ':' + node.credentials.password).toString('base64'),
           'content-type': 'application/json',
