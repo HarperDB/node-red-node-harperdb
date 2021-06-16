@@ -70,10 +70,6 @@
         <label for="node-input-table"><i class="fa fa-table"></i>  table</span></label>
         <input type="text" id="node-input-table">
     </div>
-     <div class="form-row node-input-hash_attribute">
-        <label for="node-input-hash_attribute"><i class="fa fa-key"></i>  hash_attribute</span></label>
-        <input type="text" id="node-input-hash_attribute">
-    </div>
 
 
         <div class="form-row node-input-hash_values">
@@ -141,7 +137,7 @@
     <p>
      <code>schema</code> HarperDB schema where you want to delete. </br>
      <code>table</code> HarperDB table where you want to delete. </br>
-     <code>hash_attribute</code> The hash_attribute as defined in <code>msg.payload</code> from which you wish to delete in HarperDB</br>
+     <code>hash_attribute</code> The hash_attribute(s) you wish to delete are defined in <code>msg.payload</code> in HarperDB. Note this can be a single value or an array of values.</br>
 
     </p>
 
@@ -152,19 +148,17 @@
     <p>
      <code>schema</code> HarperDB schema where you want to search. </br>
      <code>table</code> HarperDB table where you want to search. </br>
-     <code>hash_attribute</code> The hash_attribute as defined in HarperDB for your schema.table. </br>
      <code>search_attribute</code> The attribute in HarperDB that you wish to search/filter. </br>
      <code>search_value</code> The attribute in your <code>msg.payload</code> that you wish use to search/filter the search_attribute For example <code>msg.payload.search_value</code> </br>
-     <code>get_attributes</code> The attributes you want returned in your response.  If using multiple values seperate with a comma For example <code> id, breed, age </code>.  </br>
+     <code>get_attributes</code> The attributes you want returned in your response.  If using multiple values seperate with a comma For example <code> id,breed,age </code>.  </br>
 
     </p>
       <h3>search_by_hash</h3>
     <p>
      <code>schema</code> HarperDB schema where you want to search. </br>
      <code>table</code> HarperDB table where you want to search. </br>
-     <code>hash_attribute</code> The hash_attribute as defined in HarperDB for your schema.table. </br>
      <code>hash_values</code> Where the values you wish to search/filter the hash_attribute on live in your <code>msg.payload</code>  so for example if your hash_values are in <code>msg.payload.hash_values </code> then you want to put <code>hash_values</code>
-     <code>get_attributes</code> The attributes you want returned in your response.  If using multiple values seperate with a comma For example <code> id, breed, age </code>.  </br>
+     <code>get_attributes</code> The attributes you want returned in your response.  If using multiple values seperate with a comma For example <code> id,breed,age </code>.  </br>
 
     </p>
     <h3>SQL</h3>
@@ -193,7 +187,6 @@
             name: {value: ""},
             schema: {value: ""},
             table: {value: ""},
-            hash_attribute: {value: ""},
             hash_values: {value: ""},
             search_attribute: {value: ""},
             search_value: {value: ""},
@@ -258,24 +251,24 @@
                 var id = $("#node-input-operation option:selected").val();
 
                 if (id === "delete") {
-                    $(".node-input-hash_attribute,.node-input-schema,.node-input-table").show();
-                    $(" .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes, .node-input-sql, .node-input-fixed_statement").hide();
+                    $(".node-input-schema,.node-input-table").show();
+                    $(".node-input-hash_values, .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes, .node-input-sql, .node-input-fixed_statement").hide();
                 } else if (id === "search_by_hash") {
 
-                    $(".node-input-hash_attribute, .node-input-hash_values, .node-input-get_attributes,.node-input-schema,.node-input-table").show();
+                    $(".node-input-hash_values, .node-input-get_attributes,.node-input-schema,.node-input-table").show();
                     $(".node-input-search_value, .node-input-search_attribute, .node-input-sql, .node-input-fixed_statement").hide();
 
                 } else if (id === "search_by_value") {
 
-                    $(".node-input-hash_attribute, .node-input-search_value, .node-input-search_attribute, .node-input-get_attributes,.node-input-schema,.node-input-table").show();
+                    $(".node-input-search_value, .node-input-search_attribute, .node-input-get_attributes,.node-input-schema,.node-input-table").show();
                     $(".node-input-hash_values, .node-input-sql, .node-input-fixed_statement").hide();
 
                 }else if(id ==='sql'){
                     $(".node-input-sql").show();
-                    $(".node-input-table,.node-input-schema,.node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes,.node-input-schema,.node-input-get_table, .node-input-fixed_statement").hide();
+                    $(".node-input-table,.node-input-schema, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes,.node-input-schema,.node-input-get_table, .node-input-fixed_statement").hide();
                 }
                 else {
-                    $(".node-input-hash_attribute, .node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes, .node-input-sql, .node-input-fixed_statement").hide();
+                    $(".node-input-hash_values,  .node-input-search_value,.node-input-search_attribute,.node-input-get_attributes, .node-input-sql, .node-input-fixed_statement").hide();
                 }
             });
 

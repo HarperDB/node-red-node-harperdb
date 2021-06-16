@@ -38,8 +38,7 @@ Execute Operations against HarperDB see <a href="http://docs.harperdb.io"> http:
 
 ***table*** HarperDB table where you want to delete.
 
-***hash_attribute*** The hash_attribute as defined in `msg.payload` from which you wish to delete in HarperDB
-
+***hash_attribute*** The hash_attribute(s) you wish to delete are defined in `msg.payload` in HarperDB. Note this can be a single value or an array of values.
 
 
 
@@ -51,13 +50,11 @@ Execute Operations against HarperDB see <a href="http://docs.harperdb.io"> http:
 
 ***table*** HarperDB table where you want to search.
 
-***hash_attribute*** The hash_attribute as defined in HarperDB for your schema.table.
-
 ***search_attribute*** The attribute in HarperDB that you wish to search/filter.
 
 ***search_value*** The attribute in your `msg.payload` that you wish use to search/filter the search_attribute For example `msg.payload.search_value`
 
-***get_attributes*** The attributes you want returned in your response.  If using multiple values seperate with a comma For example ` id, breed, age `
+***get_attributes*** The attributes you want returned in your response.  If using multiple values seperate with a comma For example ` id,breed,age `
 
 
 ### search_by_hash
@@ -66,11 +63,9 @@ Execute Operations against HarperDB see <a href="http://docs.harperdb.io"> http:
 
 ***table*** HarperDB table where you want to search.
 
-***hash_attribute*** The hash_attribute as defined in HarperDB for your schema.table.
-
 ***hash_values*** Where the values you wish to search/filter the hash_attribute on live in your `msg.payload`  so for example if your hash_values are in `msg.payload.hash_values `  then you want to put `hash_values`
 
-***get_attributes*** The attributes you want returned in your response.  If using multiple values seperate with a comma For example ` id, breed, age `.
+***get_attributes*** The attributes you want returned in your response.  If using multiple values seperate with a comma For example ` id,breed,age `.
 
 
 ### SQL

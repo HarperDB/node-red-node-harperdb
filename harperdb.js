@@ -63,12 +63,8 @@ module.exports = function(RED) {
         hdb_payload.table = table;
       }
 
-      if (n.hash_attribute) {
-        hdb_payload.hash_attribute = n.hash_attribute;
-      }
-
       if (n.get_attributes) {
-        hdb_payload.get_attributes = n.get_attributes;
+        hdb_payload.get_attributes = n.get_attributes.split(',').map(el => el.trim());
       }
 
       if (n.operation === 'search_by_hash') {
@@ -80,17 +76,16 @@ module.exports = function(RED) {
         hdb_payload.search_attribute = n.search_attribute;
         hdb_payload.search_value = msg.payload[n.search_value];
       } else if (n.operation === 'sql') {
-        console.log('n.input_sql  : ' + n.sql);
-        console.log('msg.payload.topic  : ' + msg.payload.topic);
-        console.log(' msg.payload.topic  : ' + msg.payload.topic);
-        console.log('n.fixed_statement  : ' + n.fixed_statement);
+        //console.log('n.input_sql  : ' + n.sql);
         if (n.sql === 'msg.payload.sql') {
+          //console.log('msg.payload.sql  : ' + msg.payload.sql);
           hdb_payload.sql = msg.payload.sql;
         } else if (n.sql === 'msg.topic') {
-          hdb_payload.sql = msg.payload.topic;
+          //console.log('msg.topic  : ' + msg.topic);
+          hdb_payload.sql = msg.topic;
         } else if (n.sql === 'fixed_statement') {
+          //console.log('n.fixed_statement  : ' + n.fixed_statement);
           hdb_payload.sql = n.fixed_statement;
-
         }
 
       } else if (n.operation === 'update' || n.operation === 'insert') {
@@ -113,7 +108,7 @@ module.exports = function(RED) {
 
       options.body = hdb_payload;
 
-      console.log('options' + JSON.stringify(options));
+      //console.log('options' + JSON.stringify(options));
       node.status({ fill: 'blue', shape: 'dot', text: 'requesting' });
       request(options, function(error, response, body) {
         if (error || body.error) {
